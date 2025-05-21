@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
@@ -20,5 +23,16 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     }
 
     boolean existsByEmail(String email);
+
+    Member findByEmail(String email);
+
+    default Member findByEmailOrElseThrow(String email) {
+        Member member = findByEmail(email);
+
+        if (member == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "해당 이메일의 회원이 존재하지 않습니다.");
+        }
+        return member;
+    }
 
 }

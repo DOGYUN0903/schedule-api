@@ -1,5 +1,6 @@
 package com.example.schedule.lv2.member.service;
 
+import com.example.schedule.lv2.member.dto.login.LoginRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupResponseDto;
 import com.example.schedule.lv2.member.dto.update.MemberUpdateRequestDto;
@@ -70,5 +71,16 @@ public class MemberService {
         }
 
         memberRepository.delete(findMember);
+    }
+
+
+    public Member login(LoginRequestDto requestDto) {
+        Member findMember = memberRepository.findByEmailOrElseThrow(requestDto.getEmail());
+
+        if (!findMember.getPassword().equals(requestDto.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+        }
+
+        return findMember;
     }
 }
