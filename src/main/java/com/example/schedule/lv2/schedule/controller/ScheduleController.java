@@ -2,6 +2,7 @@ package com.example.schedule.lv2.schedule.controller;
 
 import com.example.schedule.lv2.schedule.dto.CreateScheduleRequestDto;
 import com.example.schedule.lv2.schedule.dto.ScheduleResponseDto;
+import com.example.schedule.lv2.schedule.dto.UpdateScheduleRequestDto;
 import com.example.schedule.lv2.schedule.service.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,13 @@ public class ScheduleController {
     @GetMapping("/schedules/{id}")
     public ResponseEntity<ScheduleResponseDto> findById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(scheduleService.findById(id), HttpStatus.OK);
+    }
+
+    @PatchMapping("/schedules/{id}")
+    public ResponseEntity<Void> updateSchedule(@PathVariable("id") Long id,
+                                               @Valid @RequestBody UpdateScheduleRequestDto requestDto,
+                                               @RequestParam String password) {
+        scheduleService.updateSchedule(id, requestDto, password);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
