@@ -47,4 +47,11 @@ public class ScheduleController {
         scheduleService.updateSchedule(id, requestDto, password);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping("/schedules/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable("id") Long id,
+                                               @RequestParam String password) {
+        scheduleService.deleteSchedule(id, password);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
