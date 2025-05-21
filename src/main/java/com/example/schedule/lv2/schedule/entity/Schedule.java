@@ -26,7 +26,8 @@ public class Schedule extends BaseEntity {
     @Column(nullable = false)
     private String contents;
 
-    public Schedule(String title, String contents) {
+    public Schedule(Member member, String title, String contents) {
+        this.member = member;
         this.title = title;
         this.contents = contents;
     }
