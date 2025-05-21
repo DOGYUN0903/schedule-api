@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -26,5 +28,18 @@ public class MemberService {
         Member savedMember = memberRepository.save(member);
 
         return new MemberSignupResponseDto(savedMember);
+    }
+
+    public List<MemberSignupResponseDto> findAll() {
+        return memberRepository.findAll().stream()
+                .map(MemberSignupResponseDto::new)
+                .toList();
+    }
+
+    public MemberSignupResponseDto findById(Long id) {
+
+        Member findMember = memberRepository.findByIdOrElseThrow(id);
+
+        return new MemberSignupResponseDto(findMember);
     }
 }

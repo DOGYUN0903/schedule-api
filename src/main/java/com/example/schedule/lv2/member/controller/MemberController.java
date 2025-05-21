@@ -7,10 +7,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +19,17 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    private ResponseEntity<MemberSignupResponseDto> saveMember(@Valid @RequestBody MemberSignupRequestDto requestDto) {
+    public ResponseEntity<MemberSignupResponseDto> saveMember(@Valid @RequestBody MemberSignupRequestDto requestDto) {
         return new ResponseEntity<>(memberService.saveMember(requestDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MemberSignupResponseDto>> findAll() {
+        return new ResponseEntity<>(memberService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MemberSignupResponseDto> findById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(memberService.findById(id), HttpStatus.OK);
     }
 }
