@@ -45,12 +45,12 @@ public class ScheduleController {
     public ResponseEntity<Void> updateSchedule(@PathVariable("id") Long id,
                                                @Valid @RequestBody ScheduleUpdateRequestDto updateRequestDto) {
         scheduleService.updateSchedule(id, updateRequestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 응답 본문이 없는 경우에는 성공 시 204 NO_CONTENT
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable("id") Long id) {
         scheduleService.deleteSchedule(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
