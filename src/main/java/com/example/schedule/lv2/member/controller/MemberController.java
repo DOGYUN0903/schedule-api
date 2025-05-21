@@ -1,5 +1,6 @@
 package com.example.schedule.lv2.member.controller;
 
+import com.example.schedule.lv2.member.dto.DeleteMemberRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupResponseDto;
 import com.example.schedule.lv2.member.dto.update.MemberUpdateRequestDto;
@@ -36,16 +37,15 @@ public class MemberController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateMember(@PathVariable("id") Long id,
-                                             @RequestParam("oldPassword") String oldPassword,
                                              @Valid @RequestBody MemberUpdateRequestDto updateRequestDto) {
-        memberService.updateMember(id, oldPassword, updateRequestDto);
+        memberService.updateMember(id, updateRequestDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id,
-                                             @RequestParam String password) {
-        memberService.deleteMember(id, password);
+                                             @Valid @RequestBody DeleteMemberRequestDto requestDto) {
+        memberService.deleteMember(id, requestDto.getPassword());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

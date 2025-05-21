@@ -52,10 +52,10 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(Long id,String oldPassword, MemberUpdateRequestDto updateRequestDto) {
+    public void updateMember(Long id, MemberUpdateRequestDto updateRequestDto) {
         Member findMember = memberRepository.findByIdOrElseThrow(id);
 
-        if (!findMember.getPassword().equals(oldPassword)) {
+        if (!findMember.getPassword().equals(updateRequestDto.getOldPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
         }
 
