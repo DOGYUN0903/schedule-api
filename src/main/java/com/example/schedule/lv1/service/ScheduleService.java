@@ -5,7 +5,10 @@ import com.example.schedule.lv1.dto.ScheduleResponseDto;
 import com.example.schedule.lv1.entity.Schedule;
 import com.example.schedule.lv1.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,5 +27,12 @@ public class ScheduleService {
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
         return new ScheduleResponseDto(savedSchedule);
+    }
+
+    public List<ScheduleResponseDto> findAll() {
+
+        return scheduleRepository.findAll().stream()
+                .map(ScheduleResponseDto::new)
+                .toList();
     }
 }
