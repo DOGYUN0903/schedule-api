@@ -1,6 +1,7 @@
 package com.example.schedule.lv2.member.entity;
 
 import com.example.schedule.global.entity.BaseEntity;
+import com.example.schedule.lv2.member.dto.update.MemberUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,14 @@ public class Member extends BaseEntity {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public void update(MemberUpdateRequestDto updateRequestDto) {
+        if (updateRequestDto.getUsername() != null) {
+            this.username = updateRequestDto.getUsername();
+        }
+        if (updateRequestDto.getPassword() != null) {
+            this.password = updateRequestDto.getPassword();
+        }
     }
 }

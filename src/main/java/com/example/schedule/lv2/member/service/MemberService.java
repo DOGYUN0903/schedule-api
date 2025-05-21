@@ -2,11 +2,15 @@ package com.example.schedule.lv2.member.service;
 
 import com.example.schedule.lv2.member.dto.signup.MemberSignupRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupResponseDto;
+import com.example.schedule.lv2.member.dto.update.MemberUpdateRequestDto;
 import com.example.schedule.lv2.member.entity.Member;
 import com.example.schedule.lv2.member.repository.MemberRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -41,5 +45,16 @@ public class MemberService {
         Member findMember = memberRepository.findByIdOrElseThrow(id);
 
         return new MemberSignupResponseDto(findMember);
+    }
+
+    @Transactional
+    public void updateMember(Long id,String oldPassword, MemberUpdateRequestDto updateRequestDto) {
+        Member findMember = memberRepository.findByIdOrElseThrow(id);
+
+        if (!findMember.getPassword().equals(oldPassword)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+        }
+
+        findMember.update(updateRequestDto);
     }
 }

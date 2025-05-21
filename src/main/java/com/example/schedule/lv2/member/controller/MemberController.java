@@ -2,6 +2,7 @@ package com.example.schedule.lv2.member.controller;
 
 import com.example.schedule.lv2.member.dto.signup.MemberSignupRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupResponseDto;
+import com.example.schedule.lv2.member.dto.update.MemberUpdateRequestDto;
 import com.example.schedule.lv2.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,13 @@ public class MemberController {
     @GetMapping("/{id}")
     public ResponseEntity<MemberSignupResponseDto> findById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(memberService.findById(id), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateMember(@PathVariable("id") Long id,
+                                             @RequestParam("oldPassword") String oldPassword,
+                                             @Valid @RequestBody MemberUpdateRequestDto updateRequestDto) {
+        memberService.updateMember(id, oldPassword, updateRequestDto);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
