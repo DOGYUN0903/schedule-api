@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
                 .toList();
 
         return new ResponseEntity<>(
-                new ErrorResponse("검증 오류", errorList),
+                new ErrorResponse("VALIDATION_FAILED", errorList),
                 HttpStatus.BAD_REQUEST
         );
     }
