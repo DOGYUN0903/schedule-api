@@ -9,6 +9,8 @@ import com.example.schedule.lv2.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -24,5 +26,19 @@ public class ScheduleService {
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
         return new ScheduleResponseDto(savedSchedule);
+    }
+
+    public List<ScheduleResponseDto> findAll() {
+        return scheduleRepository.findAllWithMember().stream()
+                .map(ScheduleResponseDto::new)
+                .toList();
+    }
+
+    public List<ScheduleResponseDto> findByMemberId(Long memberId) {
+        Member findMember = memberRepository.findByIdOrElseThrow(memberId);
+
+        return scheduleRepository.findByMemberId(findMember.getId()).stream()
+                .map(ScheduleResponseDto::new)
+                .toList();
     }
 }
