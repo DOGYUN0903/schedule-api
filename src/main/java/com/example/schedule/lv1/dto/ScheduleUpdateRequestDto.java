@@ -15,7 +15,7 @@ public class ScheduleUpdateRequestDto {
 
     private String contents;
 
-    @AssertTrue(message = "수정할 항목을 최소 1개 rmfjaus 이상 입력해야 합니다.")
+    @AssertTrue(message = "수정할 항목을 최소 1개 이상 입력해야 합니다.")
     public boolean isAnyFieldUpdated() {
         return writer != null || title != null || contents != null;
     }
