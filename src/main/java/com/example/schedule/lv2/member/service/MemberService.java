@@ -22,6 +22,10 @@ public class MemberService {
 
     public MemberSignupResponseDto saveMember(MemberSignupRequestDto requestDto) {
 
+        if (memberRepository.existsByEmail(requestDto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 이메일입니다.");
+        }
+
         Member member =
                 new Member(
                         requestDto.getUsername(),
