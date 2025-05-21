@@ -35,4 +35,9 @@ public class ScheduleController {
         );
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(scheduleService.findById(id), HttpStatus.OK);
+    }
+
 }
