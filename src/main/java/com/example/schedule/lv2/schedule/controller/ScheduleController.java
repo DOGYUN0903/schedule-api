@@ -42,9 +42,8 @@ public class ScheduleController {
 
     @PatchMapping("/schedules/{id}")
     public ResponseEntity<Void> updateSchedule(@PathVariable("id") Long id,
-                                               @Valid @RequestBody UpdateScheduleRequestDto requestDto,
-                                               @RequestParam String password) {
-        scheduleService.updateSchedule(id, requestDto, password);
+                                               @Valid @RequestBody UpdateScheduleRequestDto requestDto) {
+        scheduleService.updateSchedule(id, requestDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

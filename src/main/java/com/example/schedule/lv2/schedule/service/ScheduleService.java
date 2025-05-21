@@ -53,10 +53,10 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void updateSchedule(Long id, UpdateScheduleRequestDto requestDto, String password) {
+    public void updateSchedule(Long id, UpdateScheduleRequestDto requestDto) {
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
-        if (!findSchedule.getMember().getPassword().equals(password)) {
+        if (!findSchedule.getMember().getPassword().equals(requestDto.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
         }
 

@@ -13,6 +13,8 @@ public class UpdateScheduleRequestDto {
 
     private String contents;
 
+    private String password;
+
     @AssertTrue(message = "수정할 항목을 최소 1개 이상 입력해야 합니다.")
     public boolean isAnyFieldUpdated() {
         return title != null || contents != null;
