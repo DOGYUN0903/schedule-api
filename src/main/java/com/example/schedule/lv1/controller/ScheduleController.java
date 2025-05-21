@@ -1,0 +1,30 @@
+package com.example.schedule.lv1.controller;
+
+import com.example.schedule.lv1.dto.ScheduleRequestDto;
+import com.example.schedule.lv1.dto.ScheduleResponseDto;
+import com.example.schedule.lv1.service.ScheduleService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/v1/schedules")
+@RequiredArgsConstructor
+public class ScheduleController {
+
+    private final ScheduleService scheduleService;
+
+    @PostMapping
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
+        return new ResponseEntity<>(
+                scheduleService.createSchedule(requestDto),
+                HttpStatus.CREATED
+        );
+    }
+}
