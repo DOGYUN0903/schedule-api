@@ -1,6 +1,7 @@
 package com.example.schedule.lv2.schedule.controller;
 
 import com.example.schedule.lv2.schedule.dto.CreateScheduleRequestDto;
+import com.example.schedule.lv2.schedule.dto.DeleteScheduleRequestDto;
 import com.example.schedule.lv2.schedule.dto.ScheduleResponseDto;
 import com.example.schedule.lv2.schedule.dto.UpdateScheduleRequestDto;
 import com.example.schedule.lv2.schedule.service.ScheduleService;
@@ -49,8 +50,8 @@ public class ScheduleController {
 
     @DeleteMapping("/schedules/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable("id") Long id,
-                                               @RequestParam String password) {
-        scheduleService.deleteSchedule(id, password);
+                                               @Valid @RequestBody DeleteScheduleRequestDto requestDto) {
+        scheduleService.deleteSchedule(id, requestDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

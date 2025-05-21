@@ -3,6 +3,7 @@ package com.example.schedule.lv2.schedule.service;
 import com.example.schedule.lv2.member.entity.Member;
 import com.example.schedule.lv2.member.repository.MemberRepository;
 import com.example.schedule.lv2.schedule.dto.CreateScheduleRequestDto;
+import com.example.schedule.lv2.schedule.dto.DeleteScheduleRequestDto;
 import com.example.schedule.lv2.schedule.dto.ScheduleResponseDto;
 import com.example.schedule.lv2.schedule.dto.UpdateScheduleRequestDto;
 import com.example.schedule.lv2.schedule.entity.Schedule;
@@ -63,10 +64,10 @@ public class ScheduleService {
         findSchedule.update(requestDto);
     }
 
-    public void deleteSchedule(Long id, String password) {
+    public void deleteSchedule(Long id, DeleteScheduleRequestDto requestDto) {
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
-        if (!findSchedule.getMember().getPassword().equals(password)) {
+        if (!findSchedule.getMember().getPassword().equals(requestDto.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
         }
 
