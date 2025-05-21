@@ -23,6 +23,7 @@ public class ScheduleService {
 
         Schedule schedule =
                 new Schedule(
+                        requestDto.getWriter(),
                         requestDto.getTitle(),
                         requestDto.getContents()
                 );
@@ -50,5 +51,10 @@ public class ScheduleService {
         Schedule findSchedule = optionalSchedule.get();
 
         return new ScheduleResponseDto(findSchedule);
+    }
+
+    public ScheduleResponseDto updateAllById(Long id) {
+        scheduleRepository.findById(id);
+        return null;
     }
 }

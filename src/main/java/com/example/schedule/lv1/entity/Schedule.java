@@ -15,12 +15,16 @@ public class Schedule extends BaseEntity{
     private Long id;
 
     @Column(nullable = false)
+    private String writer;
+
+    @Column(nullable = false)
     private String title;
 
     @Column(columnDefinition = "longtext")
     private String contents;
 
-    public Schedule(String title, String contents) {
+    public Schedule(String writer, String title, String contents) {
+        this.writer = writer;
         this.title = title;
         this.contents = contents;
     }

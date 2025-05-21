@@ -10,6 +10,8 @@ public class ScheduleResponseDto {
 
     private Long id;
 
+    private String writer;
+
     private String title;
 
     private String contents;
@@ -18,6 +20,7 @@ public class ScheduleResponseDto {
 
     public ScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
+        this.writer = schedule.getWriter();
         this.title = schedule.getTitle();
         this.contents = schedule.getContents();
         this.modifiedAt = schedule.getModifiedAt();
