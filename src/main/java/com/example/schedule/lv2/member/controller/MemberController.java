@@ -41,4 +41,11 @@ public class MemberController {
         memberService.updateMember(id, oldPassword, updateRequestDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id,
+                                             @RequestParam("password") String password) {
+        memberService.deleteMember(id, password);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
