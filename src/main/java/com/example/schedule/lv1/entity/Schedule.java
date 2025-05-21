@@ -1,5 +1,6 @@
 package com.example.schedule.lv1.entity;
 
+import com.example.schedule.lv1.dto.ScheduleUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,17 @@ public class Schedule extends BaseEntity{
         this.writer = writer;
         this.title = title;
         this.contents = contents;
+    }
+
+    public void update(ScheduleUpdateRequestDto updateRequestDto) {
+        if (updateRequestDto.getWriter() != null) {
+            this.writer = updateRequestDto.getWriter();
+        }
+        if (updateRequestDto.getTitle() != null) {
+            this.title = updateRequestDto.getTitle();
+        }
+        if (updateRequestDto.getContents() != null) {
+            this.contents = updateRequestDto.getContents();
+        }
     }
 }

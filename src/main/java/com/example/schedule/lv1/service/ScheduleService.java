@@ -2,12 +2,14 @@ package com.example.schedule.lv1.service;
 
 import com.example.schedule.lv1.dto.ScheduleRequestDto;
 import com.example.schedule.lv1.dto.ScheduleResponseDto;
+import com.example.schedule.lv1.dto.ScheduleUpdateRequestDto;
 import com.example.schedule.lv1.entity.Schedule;
 import com.example.schedule.lv1.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -42,19 +44,14 @@ public class ScheduleService {
 
     public ScheduleResponseDto findById(Long id) {
 
-        Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
-
-        if (optionalSchedule.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exists id: " + id);
-        }
-
-        Schedule findSchedule = optionalSchedule.get();
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
         return new ScheduleResponseDto(findSchedule);
     }
 
-    public ScheduleResponseDto updateAllById(Long id) {
-        scheduleRepository.findById(id);
-        return null;
+    @Transactional
+    public void updateSchedule(Long id, ScheduleUpdateRequestDto updateRequestDto) {
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+        findSchedule.update(updateRequestDto);
     }
 }
