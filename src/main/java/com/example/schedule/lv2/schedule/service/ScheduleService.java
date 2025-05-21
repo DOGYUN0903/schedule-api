@@ -41,4 +41,9 @@ public class ScheduleService {
                 .map(ScheduleResponseDto::new)
                 .toList();
     }
+
+    public ScheduleResponseDto findById(Long id) {
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+        return new ScheduleResponseDto(findSchedule);
+    }
 }

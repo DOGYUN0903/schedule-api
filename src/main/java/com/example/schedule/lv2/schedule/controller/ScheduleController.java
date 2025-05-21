@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2")
@@ -20,5 +22,20 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> createSchedule(@PathVariable("memberId") Long memberId,
                                                               @Valid @RequestBody CreateScheduleRequestDto requestDto) {
         return new ResponseEntity<>(scheduleService.createSchedule(memberId, requestDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/schedules")
+    public ResponseEntity<List<ScheduleResponseDto>> findAll() {
+        return new ResponseEntity<>(scheduleService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/members/{memberId}/schedules")
+    public ResponseEntity<List<ScheduleResponseDto>> findByMemberId(@PathVariable("memberId") Long memberId) {
+        return new ResponseEntity<>(scheduleService.findByMemberId(memberId), HttpStatus.OK);
+    }
+
+    @GetMapping("/schedules/{id}")
+    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(scheduleService.findById(id), HttpStatus.OK);
     }
 }
