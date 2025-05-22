@@ -58,15 +58,15 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto requestDto,
                                                   HttpServletRequest request) {
-        Member member = memberService.login(requestDto);
+        Member loginMember = memberService.login(requestDto);
 
         HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, member.getId());
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember.getId());
 
         return new ResponseEntity<>(new LoginResponseDto(
-                member.getId(),
-                member.getUsername(),
-                member.getEmail()
+                loginMember.getId(),
+                loginMember.getUsername(),
+                loginMember.getEmail()
         ),
                 HttpStatus.OK
         );
