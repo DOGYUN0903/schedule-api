@@ -1,5 +1,6 @@
 package com.example.schedule.lv2.member.service;
 
+import com.example.schedule.global.exception.member.InvalidPasswordException;
 import com.example.schedule.lv2.member.dto.login.LoginRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupResponseDto;
@@ -57,7 +58,7 @@ public class MemberService {
         Member findMember = memberRepository.findByIdOrElseThrow(id);
 
         if (!findMember.getPassword().equals(updateRequestDto.getOldPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+            throw new InvalidPasswordException();
         }
 
         findMember.update(updateRequestDto);
@@ -67,7 +68,7 @@ public class MemberService {
         Member findMember = memberRepository.findByIdOrElseThrow(id);
 
         if (!findMember.getPassword().equals(password)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+            throw new InvalidPasswordException();
         }
 
         memberRepository.delete(findMember);
@@ -78,7 +79,7 @@ public class MemberService {
         Member findMember = memberRepository.findByEmailOrElseThrow(requestDto.getEmail());
 
         if (!findMember.getPassword().equals(requestDto.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+            throw new InvalidPasswordException();
         }
 
         return findMember;
