@@ -13,6 +13,8 @@ import com.example.schedule.lv2.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -36,5 +38,11 @@ public class CommentService {
         Comment savedComment = commentRepository.save(comment);
 
         return new CommentResponseDto(savedComment);
+    }
+
+    public List<CommentResponseDto> findAllComments(Long scheduleId) {
+        return commentRepository.findAllCommentsByScheduleId(scheduleId).stream()
+                .map(CommentResponseDto::new)
+                .toList();
     }
 }
