@@ -1,5 +1,6 @@
 package com.example.schedule.lv2.schedule.repository;
 
+import com.example.schedule.global.exception.schedule.ScheduleNotFoundException;
 import com.example.schedule.lv2.schedule.entity.Schedule;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,10 +22,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     default Schedule findByIdOrElseThrow(Long id) {
         return findById(id)
                 .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Does not exist id = " + id
-                        )
+                        new ScheduleNotFoundException("존재하지 않는 일정입니다.")
                 );
     }
 }
