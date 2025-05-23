@@ -61,4 +61,16 @@ public class CommentService {
         // 댓글 수정
         comment.update(content);
     }
+
+    public void deleteComment(Long commentId, Long loginMemberId) {
+        // 댓글 조회
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentNotFoundException("댓글을 찾을 수 없습니다."));
+        // 인가
+        if (!comment.getMember().getId().equals(loginMemberId)) {
+            throw new UnauthorizedAccessException("작성자만 댓글을 수정할 수 있습니다");
+        }
+        // 댓글 삭제
+        commentRepository.delete(comment);
+    }
 }
