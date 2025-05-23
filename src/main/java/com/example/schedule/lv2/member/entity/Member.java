@@ -1,6 +1,7 @@
 package com.example.schedule.lv2.member.entity;
 
 import com.example.schedule.global.entity.BaseEntity;
+import com.example.schedule.lv2.comment.entity.Comment;
 import com.example.schedule.lv2.member.dto.update.MemberUpdateRequestDto;
 import com.example.schedule.lv2.schedule.entity.Schedule;
 import jakarta.persistence.*;
@@ -31,6 +32,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public Member(String username, String email, String password) {
         this.username = username;
