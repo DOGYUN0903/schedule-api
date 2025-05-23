@@ -3,6 +3,7 @@ package com.example.schedule.lv2.comment.controller;
 import com.example.schedule.global.session.SessionConst;
 import com.example.schedule.lv2.comment.dto.CommentRequestDto;
 import com.example.schedule.lv2.comment.dto.CommentResponseDto;
+import com.example.schedule.lv2.comment.dto.UpdateCommentRequestDto;
 import com.example.schedule.lv2.comment.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -38,5 +39,17 @@ public class CommentController {
     @GetMapping("/schedules/{scheduleId}/comments")
     public ResponseEntity<List<CommentResponseDto>> findAllComments(@PathVariable("scheduleId") Long scheduleId) {
         return new ResponseEntity<>(commentService.findAllComments(scheduleId), HttpStatus.OK);
+    }
+
+    @PatchMapping("/comments/{commentId}")
+    public ResponseEntity<Void> updateComment(@PathVariable("commentId") Long commentId,
+                                              @Valid @RequestBody UpdateCommentRequestDto requestDto,
+                                              HttpServletRequest request) {
+
+        Long loginMemberId = (Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        commentService.updateComment(commentId, requestDto.getContent(), loginMemberId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 }

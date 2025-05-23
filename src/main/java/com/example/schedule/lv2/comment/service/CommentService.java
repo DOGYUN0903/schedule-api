@@ -1,8 +1,11 @@
 package com.example.schedule.lv2.comment.service;
 
+import com.example.schedule.global.exception.comment.CommentNotFoundException;
+import com.example.schedule.global.exception.common.UnauthorizedAccessException;
 import com.example.schedule.global.exception.member.MemberNotFoundException;
 import com.example.schedule.global.exception.schedule.ScheduleNotFoundException;
 import com.example.schedule.lv2.comment.dto.CommentResponseDto;
+import com.example.schedule.lv2.comment.dto.UpdateCommentRequestDto;
 import com.example.schedule.lv2.comment.entity.Comment;
 import com.example.schedule.lv2.comment.repostiory.CommentRepository;
 import com.example.schedule.lv2.member.entity.Member;
@@ -10,6 +13,7 @@ import com.example.schedule.lv2.member.repository.MemberRepository;
 import com.example.schedule.lv2.schedule.entity.Schedule;
 import com.example.schedule.lv2.schedule.repository.ScheduleRepository;
 import com.example.schedule.lv2.schedule.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +48,17 @@ public class CommentService {
         return commentRepository.findAllCommentsByScheduleId(scheduleId).stream()
                 .map(CommentResponseDto::new)
                 .toList();
+    }
+
+    public void updateComment(Long commentId, String content, Long loginMemberId) {
+        // 댓글 조회
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentNotFoundException("댓글을 찾을 수 없습니다."));
+        // 인가
+        if (!comment.getMember().getId().equals(loginMemberId)) {
+            throw new UnauthorizedAccessException("작성자만 댓글을 수정할 수 있습니다");
+        }
+        // 댓글 수정
+        comment.update(content);
     }
 }
