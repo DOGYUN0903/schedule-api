@@ -1,4 +1,4 @@
-package com.example.schedule.global.exception.member;
+package com.example.schedule.global.exception.common;
 
 import com.example.schedule.global.exception.CustomException;
 import org.springframework.http.HttpStatus;

@@ -1,19 +1,16 @@
 package com.example.schedule.lv2.member.service;
 
 import com.example.schedule.global.exception.member.EmailAlreadyExistsException;
-import com.example.schedule.global.exception.member.InvalidPasswordException;
+import com.example.schedule.global.exception.common.InvalidPasswordException;
 import com.example.schedule.lv2.member.dto.login.LoginRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupResponseDto;
 import com.example.schedule.lv2.member.dto.update.MemberUpdateRequestDto;
 import com.example.schedule.lv2.member.entity.Member;
 import com.example.schedule.lv2.member.repository.MemberRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
