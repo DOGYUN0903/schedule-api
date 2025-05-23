@@ -43,15 +43,19 @@ public class MemberController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateMember(@PathVariable("id") Long id,
-                                             @Valid @RequestBody MemberUpdateRequestDto updateRequestDto) {
-        memberService.updateMember(id, updateRequestDto);
+                                             @Valid @RequestBody MemberUpdateRequestDto updateRequestDto,
+                                             HttpServletRequest request) {
+        Long loginMemberId = (Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        memberService.updateMember(id, updateRequestDto, loginMemberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id,
-                                             @Valid @RequestBody DeleteMemberRequestDto requestDto) {
-        memberService.deleteMember(id, requestDto.getPassword());
+                                             @Valid @RequestBody DeleteMemberRequestDto requestDto,
+                                             HttpServletRequest request) {
+        Long loginMemberId = (Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        memberService.deleteMember(id, requestDto.getPassword(), loginMemberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

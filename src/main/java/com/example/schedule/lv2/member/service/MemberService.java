@@ -1,10 +1,12 @@
 package com.example.schedule.lv2.member.service;
 
 import com.example.schedule.global.auth.PasswordEncoder;
+import com.example.schedule.global.exception.common.UnauthorizedAccessException;
 import com.example.schedule.global.exception.member.EmailAlreadyExistsException;
 import com.example.schedule.global.exception.common.InvalidPasswordException;
 import com.example.schedule.global.exception.member.EmailNotFoundException;
 import com.example.schedule.global.exception.member.MemberNotFoundException;
+import com.example.schedule.lv2.member.dto.DeleteMemberRequestDto;
 import com.example.schedule.lv2.member.dto.login.LoginRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupResponseDto;
@@ -58,20 +60,28 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(Long id, MemberUpdateRequestDto updateRequestDto) {
+    public void updateMember(Long id, MemberUpdateRequestDto updateRequestDto, Long loginMemberId) {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원입니다."));
 
-        if (!passwordEncoder.matches(updateRequestDto.getPassword(), findMember.getPassword())) {
+        if (!findMember.getId().equals(loginMemberId)) {
+            throw new UnauthorizedAccessException("작성자만 본인만 수정할 수 있습니다.");
+        }
+
+        if (!passwordEncoder.matches(updateRequestDto.getOldPassword(), findMember.getPassword())) {
             throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");
         }
 
         findMember.update(updateRequestDto);
     }
 
-    public void deleteMember(Long id, String password) {
+    public void deleteMember(Long id, String password, Long loginMemberId) {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원입니다."));
+
+        if (!findMember.getId().equals(loginMemberId)) {
+            throw new UnauthorizedAccessException("작성자만 본인만 삭제할 수 있습니다.");
+        }
 
         if (!passwordEncoder.matches(password, findMember.getPassword())) {
             throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");

@@ -1,10 +1,11 @@
 package com.example.schedule.lv2.schedule.controller;
 
+import com.example.schedule.global.session.SessionConst;
 import com.example.schedule.lv2.schedule.dto.CreateScheduleRequestDto;
-import com.example.schedule.lv2.schedule.dto.DeleteScheduleRequestDto;
 import com.example.schedule.lv2.schedule.dto.ScheduleResponseDto;
 import com.example.schedule.lv2.schedule.dto.UpdateScheduleRequestDto;
 import com.example.schedule.lv2.schedule.service.ScheduleService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,15 +44,20 @@ public class ScheduleController {
 
     @PatchMapping("/schedules/{id}")
     public ResponseEntity<Void> updateSchedule(@PathVariable("id") Long id,
-                                               @Valid @RequestBody UpdateScheduleRequestDto requestDto) {
-        scheduleService.updateSchedule(id, requestDto);
+                                               @Valid @RequestBody UpdateScheduleRequestDto requestDto,
+                                               HttpServletRequest request) {
+        Long loginMemberId = (Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+
+        scheduleService.updateSchedule(id, loginMemberId, requestDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/schedules/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable("id") Long id,
-                                               @Valid @RequestBody DeleteScheduleRequestDto requestDto) {
-        scheduleService.deleteSchedule(id, requestDto);
+                                               HttpServletRequest request) {
+        Long loginMemberId = (Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+
+        scheduleService.deleteSchedule(id, loginMemberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

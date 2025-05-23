@@ -1,19 +1,19 @@
 package com.example.schedule.lv2.schedule.service;
 
+import com.example.schedule.global.exception.common.InvalidPasswordException;
+import com.example.schedule.global.exception.common.UnauthorizedAccessException;
+import com.example.schedule.global.exception.member.MemberNotFoundException;
+import com.example.schedule.global.exception.schedule.ScheduleNotFoundException;
 import com.example.schedule.lv2.member.entity.Member;
 import com.example.schedule.lv2.member.repository.MemberRepository;
 import com.example.schedule.lv2.schedule.dto.CreateScheduleRequestDto;
-import com.example.schedule.lv2.schedule.dto.DeleteScheduleRequestDto;
 import com.example.schedule.lv2.schedule.dto.ScheduleResponseDto;
 import com.example.schedule.lv2.schedule.dto.UpdateScheduleRequestDto;
 import com.example.schedule.lv2.schedule.entity.Schedule;
 import com.example.schedule.lv2.schedule.repository.ScheduleRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,7 +25,8 @@ public class ScheduleService {
     private final MemberRepository memberRepository;
 
     public ScheduleResponseDto createSchedule(Long memberId, CreateScheduleRequestDto requestDto) {
-        Member findMember = memberRepository.findByIdOrElseThrow(memberId);
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원입니다."));
 
         Schedule schedule = new Schedule(findMember, requestDto.getTitle(), requestDto.getContents());
 
@@ -41,7 +42,8 @@ public class ScheduleService {
     }
 
     public List<ScheduleResponseDto> findByMemberId(Long memberId) {
-        Member findMember = memberRepository.findByIdOrElseThrow(memberId);
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원입니다."));
 
         return scheduleRepository.findByMemberId(findMember.getId()).stream()
                 .map(ScheduleResponseDto::new)
@@ -54,21 +56,23 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void updateSchedule(Long id, UpdateScheduleRequestDto requestDto) {
-        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+    public void updateSchedule(Long id, Long loginMemberId, UpdateScheduleRequestDto requestDto) {
+        Schedule findSchedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new ScheduleNotFoundException("존재하지 않는 일정입니다."));
 
-        if (!findSchedule.getMember().getPassword().equals(requestDto.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+        if (!findSchedule.getMember().getId().equals(loginMemberId)) {
+            throw new UnauthorizedAccessException("작성자만 일정을 수정할 수 있습니다.");
         }
 
         findSchedule.update(requestDto);
     }
 
-    public void deleteSchedule(Long id, DeleteScheduleRequestDto requestDto) {
-        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+    public void deleteSchedule(Long id, Long loginMemberId) {
+        Schedule findSchedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new ScheduleNotFoundException("존재하지 않는 일정입니다."));
 
-        if (!findSchedule.getMember().getPassword().equals(requestDto.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+        if (!findSchedule.getMember().getId().equals(loginMemberId)) {
+            throw new UnauthorizedAccessException("작성자만 일정을 삭제할 수 있습니다.");
         }
 
         scheduleRepository.delete(findSchedule);
