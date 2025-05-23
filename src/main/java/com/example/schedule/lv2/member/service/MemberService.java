@@ -1,5 +1,6 @@
 package com.example.schedule.lv2.member.service;
 
+import com.example.schedule.global.exception.member.EmailAlreadyExistsException;
 import com.example.schedule.global.exception.member.InvalidPasswordException;
 import com.example.schedule.lv2.member.dto.login.LoginRequestDto;
 import com.example.schedule.lv2.member.dto.signup.MemberSignupRequestDto;
@@ -25,7 +26,7 @@ public class MemberService {
     public MemberSignupResponseDto saveMember(MemberSignupRequestDto requestDto) {
 
         if (memberRepository.existsByEmail(requestDto.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 이메일입니다.");
+            throw new EmailAlreadyExistsException("이미 사용 중인 이메일입니다.");
         }
 
         Member member =
@@ -58,7 +59,7 @@ public class MemberService {
         Member findMember = memberRepository.findByIdOrElseThrow(id);
 
         if (!findMember.getPassword().equals(updateRequestDto.getOldPassword())) {
-            throw new InvalidPasswordException();
+            throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");
         }
 
         findMember.update(updateRequestDto);
@@ -68,7 +69,7 @@ public class MemberService {
         Member findMember = memberRepository.findByIdOrElseThrow(id);
 
         if (!findMember.getPassword().equals(password)) {
-            throw new InvalidPasswordException();
+            throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");
         }
 
         memberRepository.delete(findMember);
@@ -79,7 +80,7 @@ public class MemberService {
         Member findMember = memberRepository.findByEmailOrElseThrow(requestDto.getEmail());
 
         if (!findMember.getPassword().equals(requestDto.getPassword())) {
-            throw new InvalidPasswordException();
+            throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");
         }
 
         return findMember;
