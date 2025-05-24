@@ -1,4 +1,4 @@
-package com.example.schedule.lv2.comment.repostiory;
+package com.example.schedule.lv2.comment.repository;
 
 import com.example.schedule.lv2.comment.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
