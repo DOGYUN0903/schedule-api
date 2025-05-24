@@ -18,11 +18,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     List<Schedule> findAllWithMember();
 
     List<Schedule> findByMemberId(Long memberId);
-
-    default Schedule findByIdOrElseThrow(Long id) {
-        return findById(id)
-                .orElseThrow(() ->
-                        new ScheduleNotFoundException("존재하지 않는 일정입니다.")
-                );
-    }
+    
 }

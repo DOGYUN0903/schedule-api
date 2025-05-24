@@ -51,7 +51,8 @@ public class ScheduleService {
     }
 
     public ScheduleResponseDto findById(Long id) {
-        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+        Schedule findSchedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new ScheduleNotFoundException("존재하지 않는 일정입니다."));
         return new ScheduleResponseDto(findSchedule);
     }
 
