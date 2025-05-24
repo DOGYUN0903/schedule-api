@@ -5,15 +5,12 @@ import com.example.schedule.global.exception.common.UnauthorizedAccessException;
 import com.example.schedule.global.exception.member.MemberNotFoundException;
 import com.example.schedule.global.exception.schedule.ScheduleNotFoundException;
 import com.example.schedule.lv2.comment.dto.CommentResponseDto;
-import com.example.schedule.lv2.comment.dto.UpdateCommentRequestDto;
 import com.example.schedule.lv2.comment.entity.Comment;
-import com.example.schedule.lv2.comment.repostiory.CommentRepository;
+import com.example.schedule.lv2.comment.repository.CommentRepository;
 import com.example.schedule.lv2.member.entity.Member;
 import com.example.schedule.lv2.member.repository.MemberRepository;
 import com.example.schedule.lv2.schedule.entity.Schedule;
 import com.example.schedule.lv2.schedule.repository.ScheduleRepository;
-import com.example.schedule.lv2.schedule.service.ScheduleService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
