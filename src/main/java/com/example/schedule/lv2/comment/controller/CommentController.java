@@ -54,7 +54,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable("commendId") Long commentId,
+    public ResponseEntity<Void> deleteComment(@PathVariable("commentId") Long commentId,
                                               HttpServletRequest request) {
         Long loginMemberId = (Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         commentService.deleteComment(commentId, loginMemberId);
