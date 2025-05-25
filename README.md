@@ -14,3 +14,6 @@
 | `refactor` | 코드 리팩토링 (기능 변화 없이 구조 개선)   |
 | `docs`     | 문서 수정 (예: README, 주석 등)            |
 | `chore`    | 기타 설정, 빌드, 패키지 등                 |
+
+## ERD
+![erd.PNG](docs/erd.PNG)
