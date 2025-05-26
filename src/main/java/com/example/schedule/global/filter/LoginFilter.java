@@ -17,8 +17,7 @@ public class LoginFilter implements Filter {
 
     private static final String[] WHITE_LIST = {
             "/api/v2/members/signup",
-            "/api/v2/members/login",
-            "/api/v2/members/logout"
+            "/api/v2/members/login"
     };
 
     @Override
