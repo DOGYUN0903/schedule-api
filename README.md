@@ -27,7 +27,6 @@
 | 프레임워크     | Spring Boot 3.4.5                         |
 | 빌드 도구      | Gradle                                    |
 | 데이터베이스   | MySQL 8.0.31                              |
-| 템플릿 엔진     | Thymeleaf                                 |
 | DB 접근 방식    | Spring Data JPA                           |
 | 검증 라이브러리 | Spring Boot Starter Validation (`@Valid`) |
 | IDE            | IntelliJ IDEA                             |
