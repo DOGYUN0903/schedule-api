@@ -15,6 +15,20 @@
 | `docs`     | 문서 수정 (예: README, 주석 등)            |
 | `chore`    | 기타 설정, 빌드, 패키지 등                 |
 
+## 개발 환경
+
+| 항목           | 내용                                        |
+|----------------|-------------------------------------------|
+| 언어           | Java 17 (JDK 17)                          |
+| 프레임워크     | Spring Boot 3.4.5                         |
+| 빌드 도구      | Gradle                                    |
+| 데이터베이스   | MySQL 8.0.31                              |
+| 템플릿 엔진     | Thymeleaf                                 |
+| DB 접근 방식    | Spring Data JPA                           |
+| 검증 라이브러리 | Spring Boot Starter Validation (`@Valid`) |
+| IDE            | IntelliJ IDEA                             |
+| API 테스트 도구 | Postman                                   |
+
 ## ERD
 ![erd.PNG](docs/erd.PNG)
 
